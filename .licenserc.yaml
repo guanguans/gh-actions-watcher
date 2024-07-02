@@ -1,0 +1,18 @@
+# https://github.com/apache/skywalking-eyes
+header:
+  license:
+    spdx-id: MIT
+    copyright-owner: guanguans
+    copyright-year: 2024-2024
+    software-name: gh-actions-watcher
+    pattern: |
+      Copyright(?: \(c\))? \b(19\d{2}|20\d{2})\b guanguans<ityaozm@gmail.com>
+    content: |
+      Copyright (c) 2024 guanguans<ityaozm@gmail.com>
+      For the full copyright and license information, please view
+      the LICENSE file that was distributed with this source code.
+      https://github.com/guanguans/gh-actions-watcher
+  paths:
+    - '**/*.go'
+  paths-ignore:
+    - '**/**/*_enum.go'
