@@ -3,7 +3,7 @@
 // the LICENSE file that was distributed with this source code.
 // https://github.com/guanguans/gh-actions-watcher
 
-package github
+package client
 
 import (
 	"fmt"
@@ -23,32 +23,35 @@ func NewDefaultGithub() (*Github, error) {
 		return nil, err
 	}
 
-	return newGithub(client), nil
+	return NewGithub(client), nil
 }
 
-func newGithub(client *gh.RESTClient) *Github {
+func NewGithub(client *gh.RESTClient) *Github {
 	return &Github{client: client}
 }
 
-func (g *Github) GetWorkflowRuns(repository string, branch string) (entity.WorkflowRunCollection, error) {
-	response := struct {
-		TotalCount   int                  `json:"total_count"`
-		WorkflowRuns []entity.WorkflowRun `json:"workflow_runs"`
-	}{}
-
-	err := g.client.Get(fmt.Sprintf("repos/%s/actions/runs?branch=%s", strings.Trim(repository, " /"), branch), &response)
-	if err != nil {
-		return entity.NewWorkflowRunCollection([]entity.WorkflowRun{}), err
-	}
-
-	return entity.NewWorkflowRunCollection(response.WorkflowRuns), nil
-}
-
-func (g *Github) GetLatestWorkflowRuns(repository string, branch string) (entity.WorkflowRunCollection, error) {
-	workflowRunCollection, err := g.GetWorkflowRuns(repository, branch)
+func (g *Github) LatestWorkflowRuns(repo string, branch string) (entity.WorkflowRunCollection, error) {
+	workflowRunCollection, err := g.WorkflowRuns(repo, branch)
 	if err != nil {
 		return workflowRunCollection, err
 	}
 
 	return workflowRunCollection.Uniq(), nil
+}
+
+func (g *Github) WorkflowRuns(repo string, branch string) (entity.WorkflowRunCollection, error) {
+	response := struct {
+		TotalCount   int                  `json:"total_count"`
+		WorkflowRuns []entity.WorkflowRun `json:"workflow_runs"`
+	}{}
+
+	err := g.client.Get(
+		fmt.Sprintf("repos/%s/actions/runs?branch=%s", strings.Trim(repo, " /"), strings.Trim(branch, " ")),
+		&response,
+	)
+	if err != nil {
+		return entity.NewWorkflowRunCollection([]entity.WorkflowRun{}), err
+	}
+
+	return entity.NewWorkflowRunCollection(response.WorkflowRuns), nil
 }

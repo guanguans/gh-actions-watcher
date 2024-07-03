@@ -12,19 +12,19 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/lipgloss/list"
 	"github.com/guanguans/gh-actions-watcher/internal/git"
-	"github.com/guanguans/gh-actions-watcher/internal/github"
+	"github.com/guanguans/gh-actions-watcher/internal/github/client"
 	"github.com/guanguans/gh-actions-watcher/internal/github/entity"
 )
 
 type Runner struct {
 	output *Output
-	github *github.Github
+	github *client.Github
 	repo   string
 	branch string
 }
 
 func NewDefaultRunner(repo string, branch string) (*Runner, error) {
-	gh, err := github.NewDefaultGithub()
+	gh, err := client.NewDefaultGithub()
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func NewDefaultRunner(repo string, branch string) (*Runner, error) {
 	return NewRunner(NewOutput(), gh, repo, branch), nil
 }
 
-func NewRunner(output *Output, github *github.Github, repo string, branch string) *Runner {
+func NewRunner(output *Output, github *client.Github, repo string, branch string) *Runner {
 	return &Runner{output: output, github: github, repo: repo, branch: branch}
 }
 
@@ -113,7 +113,7 @@ func (r *Runner) showWorkflowRunCollection(runs entity.WorkflowRunCollection) {
 }
 
 func (r *Runner) displayWorkflows() (entity.WorkflowRunCollection, error) {
-	runs, err := r.github.GetLatestWorkflowRuns(r.repo, r.branch)
+	runs, err := r.github.LatestWorkflowRuns(r.repo, r.branch)
 	if err != nil {
 		return runs, err
 	}
