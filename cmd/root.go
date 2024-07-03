@@ -22,12 +22,12 @@ func Execute() {
 			SilenceErrors: true,
 			SilenceUsage:  true,
 			RunE: func(cmd *cobra.Command, args []string) error {
-				defaultRunner, err := console.NewDefaultRunner(repo, branch)
+				runner, err := console.NewDefaultRunner(repo, branch)
 				if err != nil {
 					return err
 				}
 
-				return defaultRunner.Hanlde()
+				return runner.Run()
 			},
 		}
 	)
@@ -37,7 +37,7 @@ func Execute() {
 
 	err := rootCmd.Execute()
 	if err != nil {
-		console.NewConsoleOutput().Error(err.Error())
+		console.NewOutput().Error(err.Error())
 		os.Exit(1)
 	}
 }

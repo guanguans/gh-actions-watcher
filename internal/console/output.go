@@ -7,72 +7,73 @@ package console
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 )
 
-type consoleOutput struct{}
+type Output struct{}
 
-func NewConsoleOutput() *consoleOutput {
-	return &consoleOutput{}
+func NewOutput() *Output {
+	return &Output{}
 }
 
-func (co *consoleOutput) lineSuccess(message string) {
-	co.line(message, "#008000")
+func (o *Output) LineSuccess(message string) {
+	o.Line(message, "#008000")
 }
 
-func (co *consoleOutput) lineWarning(message string) {
-	co.line(message, "#ff8c00")
+func (o *Output) LineWarning(message string) {
+	o.Line(message, "#ff8c00")
 }
 
-func (co *consoleOutput) lineError(message string) {
-	co.line(message, "#ff0000")
+func (o *Output) LineError(message string) {
+	o.Line(message, "#ff0000")
 }
 
-func (co *consoleOutput) lineInfo(message string) {
-	co.line(message, "#bfbfbf")
+func (o *Output) LineInfo(message string) {
+	o.Line(message, "#bfbfbf")
 }
 
-func (co *consoleOutput) line(message string, fg string) {
-	style := lipgloss.NewStyle().
-		PaddingLeft(1).
-		PaddingRight(1).
-		Foreground(lipgloss.Color(fg)).
-		Width(120)
-
-	fmt.Println(style.Render(message))
+func (o *Output) Line(message string, fg string) {
+	fmt.Println(
+		lipgloss.NewStyle().
+			PaddingLeft(1).
+			PaddingRight(1).
+			Foreground(lipgloss.Color(fg)).
+			Width(120).
+			Render(message),
+	)
 }
 
-func (co *consoleOutput) success(message string) {
-	co.block(message, "#008000", "#ffffff")
+func (o *Output) NewLine(count int) {
+	fmt.Print(strings.Repeat("\n", count))
 }
 
-func (co *consoleOutput) warning(message string) {
-	co.block(message, "#ff8c00", "#ffffff")
+func (o *Output) Success(message string) {
+	o.Block(message, "#008000", "#ffffff")
 }
 
-func (co *consoleOutput) Error(message string) {
-	co.block(message, "#ff0000", "#ffffff")
+func (o *Output) Warning(message string) {
+	o.Block(message, "#ff8c00", "#ffffff")
 }
 
-func (co *consoleOutput) info(message string) {
-	co.block(message, "#bfbfbf", "#ffffff")
+func (o *Output) Error(message string) {
+	o.Block(message, "#ff0000", "#ffffff")
 }
 
-func (co *consoleOutput) block(message string, bg string, fg string) {
-	style := lipgloss.NewStyle().
-		MarginTop(1).
-		MarginBottom(1).
-		Padding(1).
-		Background(lipgloss.Color(bg)).
-		Foreground(lipgloss.Color(fg)).
-		Width(120)
-
-	fmt.Println(style.Render(message))
+func (o *Output) Info(message string) {
+	o.Block(message, "#bfbfbf", "#ffffff")
 }
 
-func (co *consoleOutput) newLine(count int) {
-	for i := 0; i < count; i++ {
-		fmt.Println("")
-	}
+func (o *Output) Block(message string, bg string, fg string) {
+	fmt.Println(
+		lipgloss.NewStyle().
+			MarginTop(1).
+			MarginBottom(1).
+			Padding(1).
+			Background(lipgloss.Color(bg)).
+			Foreground(lipgloss.Color(fg)).
+			Width(120).
+			Render(message),
+	)
 }
