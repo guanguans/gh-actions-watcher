@@ -8,6 +8,7 @@ package cmd
 import (
 	"os"
 
+	"github.com/guanguans/gh-actions-watcher/internal/console"
 	"github.com/spf13/cobra"
 )
 
@@ -21,12 +22,12 @@ func Execute() {
 			SilenceErrors: true,
 			SilenceUsage:  true,
 			RunE: func(cmd *cobra.Command, args []string) error {
-				defaultRunner, err := newDefaultRunner(repo, branch)
+				defaultRunner, err := console.NewDefaultRunner(repo, branch)
 				if err != nil {
 					return err
 				}
 
-				return defaultRunner.hanlde()
+				return defaultRunner.Hanlde()
 			},
 		}
 	)
@@ -36,7 +37,7 @@ func Execute() {
 
 	err := rootCmd.Execute()
 	if err != nil {
-		newConsoleOutput().error(err.Error())
+		console.NewConsoleOutput().Error(err.Error())
 		os.Exit(1)
 	}
 }

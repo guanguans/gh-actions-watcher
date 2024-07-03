@@ -3,7 +3,7 @@
 // the LICENSE file that was distributed with this source code.
 // https://github.com/guanguans/gh-actions-watcher
 
-package cmd
+package console
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ import (
 
 type consoleOutput struct{}
 
-func newConsoleOutput() *consoleOutput {
+func NewConsoleOutput() *consoleOutput {
 	return &consoleOutput{}
 }
 
@@ -51,7 +51,7 @@ func (co *consoleOutput) warning(message string) {
 	co.block(message, "#ff8c00", "#ffffff")
 }
 
-func (co *consoleOutput) error(message string) {
+func (co *consoleOutput) Error(message string) {
 	co.block(message, "#ff0000", "#ffffff")
 }
 

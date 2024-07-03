@@ -3,7 +3,7 @@
 // the LICENSE file that was distributed with this source code.
 // https://github.com/guanguans/gh-actions-watcher
 
-package cmd
+package console
 
 import (
 	"fmt"
@@ -22,7 +22,7 @@ type runner struct {
 	branch string
 }
 
-func newDefaultRunner(repo string, branch string) (*runner, error) {
+func NewDefaultRunner(repo string, branch string) (*runner, error) {
 	defaultGithub, err := github.NewDefaultGithub()
 	if err != nil {
 		return nil, err
@@ -54,10 +54,10 @@ func newRunner(github *github.Github, repo string, branch string) *runner {
 	return &runner{github: *github, repo: repo, branch: branch}
 }
 
-func (r runner) hanlde() error {
+func (r runner) Hanlde() error {
 	r.showHeader()
 
-	newConsoleOutput().lineInfo("Fetching GitHub workflow runs...")
+	NewConsoleOutput().lineInfo("Fetching GitHub workflow runs...")
 
 	var lastWorkflows entity.WorkflowRunCollection
 
@@ -79,7 +79,7 @@ func (r runner) hanlde() error {
 		return fmt.Errorf("Some workflows failed...")
 	}
 
-	newConsoleOutput().success("All workflows finished successfully.")
+	NewConsoleOutput().success("All workflows finished successfully.")
 
 	return nil
 }
@@ -92,17 +92,17 @@ func (r runner) displayWorkflows() (entity.WorkflowRunCollection, error) {
 
 	r.showHeader()
 
-	newConsoleOutput().lineInfo(fmt.Sprintf("Workflow runs for %s on the %s branch.\n", r.repo, r.branch))
+	NewConsoleOutput().lineInfo(fmt.Sprintf("Workflow runs for %s on the %s branch.\n", r.repo, r.branch))
 
 	if runs.IsEmpty() {
-		newConsoleOutput().lineWarning("No workflow runs found for this repo...")
+		NewConsoleOutput().lineWarning("No workflow runs found for this repo...")
 		return runs, nil
 	}
 
 	r.showRuns(runs)
 
 	if runs.ContainsActiveRuns() {
-		newConsoleOutput().warning("Running workflows detected. Refreshing automatically...")
+		NewConsoleOutput().warning("Running workflows detected. Refreshing automatically...")
 	}
 
 	return runs, err
@@ -129,7 +129,7 @@ func (r runner) showRuns(runs entity.WorkflowRunCollection) {
 func (r runner) showHeader() {
 	r.clearScreen()
 
-	newConsoleOutput().info("GitHub Actions Watcher by Spatie - Logged in as guanguans")
+	NewConsoleOutput().info("GitHub Actions Watcher by guanguans - Logged in as guanguans")
 }
 
 func (r runner) clearScreen() {
