@@ -6,8 +6,6 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/guanguans/gh-actions-watcher/internal/console"
 	"github.com/spf13/cobra"
 )
@@ -35,9 +33,7 @@ func Execute() {
 	rootCmd.Flags().StringVarP(&repo, "repo", "r", "", "GitHub repository.")
 	rootCmd.Flags().StringVarP(&branch, "branch", "b", "", "Workflow run branch.")
 
-	err := rootCmd.Execute()
-	if err != nil {
+	if err := rootCmd.Execute(); err != nil {
 		console.NewOutput().BlockError(err.Error())
-		os.Exit(1)
 	}
 }
