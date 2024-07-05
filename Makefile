@@ -1,6 +1,7 @@
 # note: call scripts from /scripts
 
-checks: mod-tidy goimports fmt
+.PHONY: checks
+checks: mod-tidy goimports fmt license-fix
 
 .PHONY: ai-commit
 ai-commit:
@@ -78,3 +79,7 @@ license-check:
 .PHONY: license-fix
 license-fix:
 	license-eye header fix
+
+.PHONY: vhs
+vhs:
+	vhs < gh-actions-watcher.tape

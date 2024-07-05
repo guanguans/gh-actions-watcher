@@ -29,4 +29,5 @@ go.work
 /.idea/
 
 /gh-actions-watcher
-
+.DS_Store
+q
