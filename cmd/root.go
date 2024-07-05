@@ -37,7 +37,7 @@ func Execute() {
 
 	err := rootCmd.Execute()
 	if err != nil {
-		console.NewOutput().Error(err.Error())
+		console.NewOutput().BlockError(err.Error())
 		os.Exit(1)
 	}
 }

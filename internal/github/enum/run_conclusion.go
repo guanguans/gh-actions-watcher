@@ -5,6 +5,8 @@
 
 package enum
 
+import "github.com/guanguans/gh-actions-watcher/internal/color"
+
 //go:generate go-enum --marshal --flag --names --values
 
 // ENUM(action_required, cancelled, failure, neutral, success, skipped, stale, timed_out)
@@ -17,14 +19,14 @@ func (x RunConclusion) HumanReadableValue() string {
 func (x RunConclusion) Color() string {
 	switch x.String() {
 	case RunConclusionActionRequired.String():
-		return "#ff8c00" // orange
+		return color.ColorOrange.String() // orange
 	case RunConclusionCancelled.String(), RunConclusionSkipped.String():
-		return "#bfbfbf" // gray
+		return color.ColorGray.String() // gray
 	case RunConclusionFailure.String(), RunConclusionStale.String(), RunConclusionTimedOut.String():
-		return "#ff0000" // red
+		return color.ColorRed.String() // red
 	case RunConclusionNeutral.String(), RunConclusionSuccess.String():
-		return "#008000" // green
+		return color.ColorGreen.String() // green
 	default:
-		return "#bfbfbf" // gray
+		return color.ColorGray.String() // gray
 	}
 }

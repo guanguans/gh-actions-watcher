@@ -5,6 +5,8 @@
 
 package enum
 
+import "github.com/guanguans/gh-actions-watcher/internal/color"
+
 //go:generate go-enum --marshal --flag --names --values
 
 // ENUM(queued, pending, in_progress, completed)
@@ -17,12 +19,12 @@ func (x RunStatus) HumanReadableValue() string {
 func (x RunStatus) Color() string {
 	switch x.String() {
 	case RunStatusQueued.String(), RunStatusPending.String():
-		return "#bfbfbf" // gray
+		return color.ColorGray.String() // gray
 	case RunStatusInProgress.String():
-		return "#ff8c00" // orange
+		return color.ColorOrange.String() // orange
 	case RunStatusCompleted.String():
-		return "#ff0000" // red
+		return color.ColorRed.String() // red
 	default:
-		return "#bfbfbf" // gray
+		return color.ColorGray.String() // gray
 	}
 }

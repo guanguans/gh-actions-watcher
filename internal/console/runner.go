@@ -80,14 +80,14 @@ func (r *Runner) Run() error {
 		return fmt.Errorf("Some workflows failed...")
 	}
 
-	r.output.Success("All workflows finished successfully.")
+	r.output.BlockSuccess("All workflows finished successfully.")
 
 	return nil
 }
 
 func (r *Runner) showHeader() {
 	r.clearScreen()
-	r.output.Info("GitHub Actions Watcher by guanguans - Logged in as guanguans")
+	r.output.BlockInfo("GitHub Actions Watcher by guanguans - Logged in as guanguans")
 }
 
 func (r *Runner) clearScreen() {
@@ -130,7 +130,7 @@ func (r *Runner) displayWorkflows() (entity.WorkflowRunCollection, error) {
 	r.showWorkflowRunCollection(runs)
 
 	if runs.ContainsActiveRuns() {
-		r.output.Warning("Running workflows detected. Refreshing automatically...")
+		r.output.BlockWarning("Running workflows detected. Refreshing automatically...")
 	}
 
 	return runs, err

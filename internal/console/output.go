@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
+	"github.com/guanguans/gh-actions-watcher/internal/color"
 )
 
 type Output struct{}
@@ -19,19 +20,19 @@ func NewOutput() *Output {
 }
 
 func (o *Output) LineSuccess(message string) {
-	o.Line(message, "#008000")
+	o.Line(message, color.ColorGreen.String())
 }
 
 func (o *Output) LineWarning(message string) {
-	o.Line(message, "#ff8c00")
+	o.Line(message, color.ColorOrange.String())
 }
 
 func (o *Output) LineError(message string) {
-	o.Line(message, "#ff0000")
+	o.Line(message, color.ColorRed.String())
 }
 
 func (o *Output) LineInfo(message string) {
-	o.Line(message, "#bfbfbf")
+	o.Line(message, color.ColorGray.String())
 }
 
 func (o *Output) Line(message string, fg string) {
@@ -49,20 +50,20 @@ func (o *Output) NewLine(count int) {
 	fmt.Print(strings.Repeat("\n", count))
 }
 
-func (o *Output) Success(message string) {
-	o.Block(message, "#008000", "#ffffff")
+func (o *Output) BlockSuccess(message string) {
+	o.Block(message, color.ColorGreen.String(), color.ColorWhite.String())
 }
 
-func (o *Output) Warning(message string) {
-	o.Block(message, "#ff8c00", "#ffffff")
+func (o *Output) BlockWarning(message string) {
+	o.Block(message, color.ColorOrange.String(), color.ColorWhite.String())
 }
 
-func (o *Output) Error(message string) {
-	o.Block(message, "#ff0000", "#ffffff")
+func (o *Output) BlockError(message string) {
+	o.Block(message, color.ColorRed.String(), color.ColorWhite.String())
 }
 
-func (o *Output) Info(message string) {
-	o.Block(message, "#bfbfbf", "#ffffff")
+func (o *Output) BlockInfo(message string) {
+	o.Block(message, color.ColorGray.String(), color.ColorWhite.String())
 }
 
 func (o *Output) Block(message string, bg string, fg string) {
