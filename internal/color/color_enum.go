@@ -7,8 +7,8 @@
 package color
 
 import (
+	"errors"
 	"fmt"
-	"strings"
 )
 
 const (
@@ -26,35 +26,7 @@ const (
 	ColorBlack Color = "#000000"
 )
 
-var ErrInvalidColor = fmt.Errorf("not a valid Color, try [%s]", strings.Join(_ColorNames, ", "))
-
-var _ColorNames = []string{
-	string(ColorGray),
-	string(ColorGreen),
-	string(ColorOrange),
-	string(ColorRed),
-	string(ColorWhite),
-	string(ColorBlack),
-}
-
-// ColorNames returns a list of possible string values of Color.
-func ColorNames() []string {
-	tmp := make([]string, len(_ColorNames))
-	copy(tmp, _ColorNames)
-	return tmp
-}
-
-// ColorValues returns a list of the values for Color
-func ColorValues() []Color {
-	return []Color{
-		ColorGray,
-		ColorGreen,
-		ColorOrange,
-		ColorRed,
-		ColorWhite,
-		ColorBlack,
-	}
-}
+var ErrInvalidColor = errors.New("not a valid Color")
 
 // String implements the Stringer interface.
 func (x Color) String() string {
@@ -83,36 +55,4 @@ func ParseColor(name string) (Color, error) {
 		return x, nil
 	}
 	return Color(""), fmt.Errorf("%s is %w", name, ErrInvalidColor)
-}
-
-// MarshalText implements the text marshaller method.
-func (x Color) MarshalText() ([]byte, error) {
-	return []byte(string(x)), nil
-}
-
-// UnmarshalText implements the text unmarshaller method.
-func (x *Color) UnmarshalText(text []byte) error {
-	tmp, err := ParseColor(string(text))
-	if err != nil {
-		return err
-	}
-	*x = tmp
-	return nil
-}
-
-// Set implements the Golang flag.Value interface func.
-func (x *Color) Set(val string) error {
-	v, err := ParseColor(val)
-	*x = v
-	return err
-}
-
-// Get implements the Golang flag.Getter interface func.
-func (x *Color) Get() interface{} {
-	return *x
-}
-
-// Type implements the github.com/spf13/pFlag Value interface.
-func (x *Color) Type() string {
-	return "Color"
 }

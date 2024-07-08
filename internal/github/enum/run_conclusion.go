@@ -8,8 +8,9 @@ package enum
 import "github.com/guanguans/gh-actions-watcher/internal/color"
 
 //go:generate go-enum --marshal --flag --names --values
+//go:generate go-enum
 
-// ENUM(action_required, cancelled, failure, neutral, success, skipped, stale, timed_out)
+// RunConclusion ENUM(action_required, cancelled, failure, neutral, success, skipped, stale, timed_out)
 type RunConclusion string
 
 func (x RunConclusion) HumanReadableValue() string {

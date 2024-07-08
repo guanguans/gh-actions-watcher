@@ -5,16 +5,8 @@
 
 package color
 
-// const (
-// 	Gray   string = "#bfbfbf"
-// 	Green  string = "#008000"
-// 	Orange string = "#ff8c00"
-// 	Red    string = "#ff0000"
-// 	White  string = "#ffffff"
-// 	Black  string = "#000000"
-// )
-
 //go:generate go-enum --marshal --flag --names --values
+//go:generate go-enum
 
-// ENUM(gray = "#bfbfbf", green = "#008000", orange = "#ff8c00", red = "#ff0000", white = "#ffffff", black = "#000000")
+// Color ENUM(gray = "#bfbfbf", green = "#008000", orange = "#ff8c00", red = "#ff0000", white = "#ffffff", black = "#000000")
 type Color string

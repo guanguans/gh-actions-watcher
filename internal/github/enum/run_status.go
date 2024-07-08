@@ -8,8 +8,9 @@ package enum
 import "github.com/guanguans/gh-actions-watcher/internal/color"
 
 //go:generate go-enum --marshal --flag --names --values
+//go:generate go-enum
 
-// ENUM(queued, pending, in_progress, completed)
+// RunStatus ENUM(queued, pending, in_progress, completed)
 type RunStatus string
 
 func (x RunStatus) HumanReadableValue() string {
