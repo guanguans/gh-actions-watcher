@@ -19,13 +19,13 @@ func (x RunStatus) HumanReadableValue() string {
 
 func (x RunStatus) Color() string {
 	switch x.String() {
-	case RunStatusQueued.String(), RunStatusPending.String():
-		fallthrough // gray
-	default:
-		return color.ColorGray.String() // gray
 	case RunStatusInProgress.String():
 		return color.ColorOrange.String() // orange
 	case RunStatusCompleted.String():
 		return color.ColorRed.String() // red
+	case RunStatusQueued.String(), RunStatusPending.String():
+		fallthrough // gray
+	default:
+		return color.ColorGray.String() // gray
 	}
 }

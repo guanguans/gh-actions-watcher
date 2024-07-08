@@ -13,6 +13,8 @@ import (
 	"github.com/guanguans/gh-actions-watcher/internal/color"
 )
 
+const width = 120
+
 type Output struct{}
 
 func NewOutput() *Output {
@@ -41,7 +43,7 @@ func (o *Output) Line(message, fg string) {
 			PaddingLeft(1).
 			PaddingRight(1).
 			Foreground(lipgloss.Color(fg)).
-			Width(120).
+			Width(width).
 			Render(message),
 	)
 }
@@ -74,7 +76,7 @@ func (o *Output) Block(message, bg, fg string) {
 			Padding(1).
 			Background(lipgloss.Color(bg)).
 			Foreground(lipgloss.Color(fg)).
-			Width(120).
+			Width(width).
 			Render(message),
 	)
 }

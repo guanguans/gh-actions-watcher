@@ -12,35 +12,35 @@ import (
 )
 
 const (
-	// ColorGray is a Color of type gray.
-	ColorGray Color = "#bfbfbf"
-	// ColorGreen is a Color of type green.
-	ColorGreen Color = "#008000"
-	// ColorOrange is a Color of type orange.
-	ColorOrange Color = "#ff8c00"
-	// ColorRed is a Color of type red.
-	ColorRed Color = "#ff0000"
-	// ColorWhite is a Color of type white.
-	ColorWhite Color = "#ffffff"
-	// ColorBlack is a Color of type black.
-	ColorBlack Color = "#000000"
+	// ColorGray is a color of type gray.
+	ColorGray color = "#bfbfbf"
+	// ColorGreen is a color of type green.
+	ColorGreen color = "#008000"
+	// ColorOrange is a color of type orange.
+	ColorOrange color = "#ff8c00"
+	// ColorRed is a color of type red.
+	ColorRed color = "#ff0000"
+	// ColorWhite is a color of type white.
+	ColorWhite color = "#ffffff"
+	// ColorBlack is a color of type black.
+	ColorBlack color = "#000000"
 )
 
-var ErrInvalidColor = errors.New("not a valid Color")
+var ErrInvalidcolor = errors.New("not a valid color")
 
 // String implements the Stringer interface.
-func (x Color) String() string {
+func (x color) String() string {
 	return string(x)
 }
 
 // IsValid provides a quick way to determine if the typed value is
 // part of the allowed enumerated values
-func (x Color) IsValid() bool {
-	_, err := ParseColor(string(x))
+func (x color) IsValid() bool {
+	_, err := Parsecolor(string(x))
 	return err == nil
 }
 
-var _ColorValue = map[string]Color{
+var _colorValue = map[string]color{
 	"#bfbfbf": ColorGray,
 	"#008000": ColorGreen,
 	"#ff8c00": ColorOrange,
@@ -49,10 +49,10 @@ var _ColorValue = map[string]Color{
 	"#000000": ColorBlack,
 }
 
-// ParseColor attempts to convert a string to a Color.
-func ParseColor(name string) (Color, error) {
-	if x, ok := _ColorValue[name]; ok {
+// Parsecolor attempts to convert a string to a color.
+func Parsecolor(name string) (color, error) {
+	if x, ok := _colorValue[name]; ok {
 		return x, nil
 	}
-	return Color(""), fmt.Errorf("%s is %w", name, ErrInvalidColor)
+	return color(""), fmt.Errorf("%s is %w", name, ErrInvalidcolor)
 }

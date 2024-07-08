@@ -6,7 +6,7 @@
 package git
 
 import (
-	"errors"
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -16,15 +16,15 @@ type LocalGitRepo struct {
 }
 
 func NewDefaultLocalGitRepo() (*LocalGitRepo, error) {
-	defaultGit, err := newDefaultGit()
+	defaultGit, err := NewDefaultGit()
 	if err != nil {
 		return nil, err
 	}
 
-	return newLocalGitRepo(defaultGit), nil
+	return NewLocalGitRepo(defaultGit), nil
 }
 
-func newLocalGitRepo(git *git) *LocalGitRepo {
+func NewLocalGitRepo(git *git) *LocalGitRepo {
 	return &LocalGitRepo{git: git}
 }
 
@@ -55,12 +55,14 @@ func (l LocalGitRepo) getConfiguredGitURL() (string, error) {
 }
 
 func (l LocalGitRepo) extractVendorAndRepo(githubRemoteURL string) (string, error) {
-	pattern := `(?:https:\/\/github\.com\/|git@github\.com:|git@github\.com:\/)([\w-]+\/[\w-]+)`
-	re := regexp.MustCompile(pattern)
+	re := regexp.MustCompile(`(?:https://github\.com/|git@github\.com:|git@github\.com:/)([\w-]+/[\w-]+)`)
 	match := re.FindStringSubmatch(githubRemoteURL)
-	if len(match) > 1 {
-		return match[1], nil
+	if len(match) < 1 {
+		return "", fmt.Errorf(
+			"it seems you are executing this in a git repo that was not cloned from Github. detected remote URL: `%s`",
+			githubRemoteURL,
+		)
 	}
 
-	return "", errors.New("It seems you are executing this in a git repo that was not cloned from Github. Detected remote URL: `" + githubRemoteURL + "`")
+	return match[1], nil
 }

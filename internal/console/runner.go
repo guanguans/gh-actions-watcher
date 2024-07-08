@@ -6,6 +6,7 @@
 package console
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -15,6 +16,8 @@ import (
 	"github.com/guanguans/gh-actions-watcher/internal/github/client"
 	"github.com/guanguans/gh-actions-watcher/internal/github/entity"
 )
+
+const requestInterval = 5
 
 type Runner struct {
 	output *Output
@@ -26,25 +29,25 @@ type Runner struct {
 func NewDefaultRunner(repo, branch string) (*Runner, error) {
 	gh, err := client.NewDefaultGithub()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create Github client: %w", err)
 	}
 
 	localGitRepo, err := git.NewDefaultLocalGitRepo()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create local git repo: %w", err)
 	}
 
 	if repo == "" {
 		repo, err = localGitRepo.GetVendorAndRepo()
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("failed to get repo: %w", err)
 		}
 	}
 
 	if branch == "" {
 		branch, err = localGitRepo.GetCurrentBranch()
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("failed to get current branch: %w", err)
 		}
 	}
 
@@ -76,7 +79,7 @@ func (r *Runner) Run() error {
 	}
 
 	if !lastWorkflows.AllCompletedSuccessfully() {
-		return fmt.Errorf("Some workflows failed...")
+		return errors.New("some workflows failed")
 	}
 
 	r.output.BlockSuccess("All workflows finished successfully.")
@@ -115,7 +118,7 @@ func (r *Runner) showWorkflowRunCollection(runs entity.WorkflowRunCollection) {
 func (r *Runner) displayWorkflows() (entity.WorkflowRunCollection, error) {
 	runs, err := r.github.LatestWorkflowRuns(r.repo, r.branch)
 	if err != nil {
-		return runs, err
+		return runs, fmt.Errorf("failed to get latest workflow runs: %w", err)
 	}
 
 	r.showHeader()
@@ -133,7 +136,7 @@ func (r *Runner) displayWorkflows() (entity.WorkflowRunCollection, error) {
 		r.output.BlockWarning("Running workflows detected. Refreshing automatically...")
 	}
 
-	return runs, err
+	return runs, nil
 }
 
 func (r *Runner) shouldContinueWatching(workflowRunCollection entity.WorkflowRunCollection) bool {
@@ -141,7 +144,7 @@ func (r *Runner) shouldContinueWatching(workflowRunCollection entity.WorkflowRun
 		return false
 	}
 
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * requestInterval)
 
 	return true
 }

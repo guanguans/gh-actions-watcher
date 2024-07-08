@@ -20,7 +20,7 @@ type Github struct {
 func NewDefaultGithub() (*Github, error) {
 	client, err := gh.DefaultRESTClient()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create GitHub client: %w", err)
 	}
 
 	return NewGithub(client), nil
@@ -40,7 +40,7 @@ func (g *Github) LatestWorkflowRuns(repo, branch string) (entity.WorkflowRunColl
 }
 
 func (g *Github) WorkflowRuns(repo, branch string) (entity.WorkflowRunCollection, error) {
-	response := struct {
+	response := struct { //nolint:exhaustruct
 		TotalCount   int                  `json:"total_count"`
 		WorkflowRuns []entity.WorkflowRun `json:"workflow_runs"`
 	}{}

@@ -17,24 +17,24 @@ type git struct {
 	path string
 }
 
-func newDefaultGit() (*git, error) {
+func NewDefaultGit() (*git, error) {
 	lookPath, err := safeexec.LookPath("git")
 	if err != nil {
 		return nil, fmt.Errorf("could not find git executable in PATH. error: %w", err)
 	}
 
-	return newGit(lookPath), nil
+	return NewGit(lookPath), nil
 }
 
-func newGit(path string) *git {
+func NewGit(path string) *git {
 	return &git{path: path}
 }
 
-func (g *git) exec(args ...string) (stdOut, stdErr bytes.Buffer, err error) {
+func (g *git) exec(args ...string) (stdOut, stdErr bytes.Buffer, err error) { //nolint:nonamedreturns
 	return g.run(nil, args...)
 }
 
-func (g *git) run(env []string, args ...string) (stdOut, stdErr bytes.Buffer, err error) {
+func (g *git) run(env []string, args ...string) (stdOut, stdErr bytes.Buffer, err error) { //nolint:nonamedreturns
 	cmd := exec.Command(g.path, args...)
 	cmd.Stdout = &stdOut
 	cmd.Stderr = &stdErr

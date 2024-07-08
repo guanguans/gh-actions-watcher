@@ -6,6 +6,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/guanguans/gh-actions-watcher/internal/console"
 	"github.com/spf13/cobra"
 )
@@ -22,7 +24,7 @@ func Execute() {
 			RunE: func(_ *cobra.Command, _ []string) error {
 				runner, err := console.NewDefaultRunner(repo, branch)
 				if err != nil {
-					return err
+					return fmt.Errorf("failed to create runner: %w", err)
 				}
 
 				return runner.Run()
