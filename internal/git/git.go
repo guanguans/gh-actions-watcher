@@ -30,11 +30,11 @@ func newGit(path string) *git {
 	return &git{path: path}
 }
 
-func (g *git) exec(args ...string) (stdOut bytes.Buffer, stdErr bytes.Buffer, err error) {
+func (g *git) exec(args ...string) (stdOut, stdErr bytes.Buffer, err error) {
 	return g.run(nil, args...)
 }
 
-func (g *git) run(env []string, args ...string) (stdOut bytes.Buffer, stdErr bytes.Buffer, err error) {
+func (g *git) run(env []string, args ...string) (stdOut, stdErr bytes.Buffer, err error) {
 	cmd := exec.Command(g.path, args...)
 	cmd.Stdout = &stdOut
 	cmd.Stderr = &stdErr
@@ -45,6 +45,7 @@ func (g *git) run(env []string, args ...string) (stdOut bytes.Buffer, stdErr byt
 	err = cmd.Run()
 	if err != nil {
 		err = fmt.Errorf("failed to run git: %s. error: %w", stdErr.String(), err)
+
 		return
 	}
 

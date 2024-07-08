@@ -30,7 +30,7 @@ func NewGithub(client *gh.RESTClient) *Github {
 	return &Github{client: client}
 }
 
-func (g *Github) LatestWorkflowRuns(repo string, branch string) (entity.WorkflowRunCollection, error) {
+func (g *Github) LatestWorkflowRuns(repo, branch string) (entity.WorkflowRunCollection, error) {
 	workflowRunCollection, err := g.WorkflowRuns(repo, branch)
 	if err != nil {
 		return workflowRunCollection, err
@@ -39,7 +39,7 @@ func (g *Github) LatestWorkflowRuns(repo string, branch string) (entity.Workflow
 	return workflowRunCollection.Uniq(), nil
 }
 
-func (g *Github) WorkflowRuns(repo string, branch string) (entity.WorkflowRunCollection, error) {
+func (g *Github) WorkflowRuns(repo, branch string) (entity.WorkflowRunCollection, error) {
 	response := struct {
 		TotalCount   int                  `json:"total_count"`
 		WorkflowRuns []entity.WorkflowRun `json:"workflow_runs"`

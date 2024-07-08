@@ -35,7 +35,7 @@ func (o *Output) LineInfo(message string) {
 	o.Line(message, color.ColorGray.String())
 }
 
-func (o *Output) Line(message string, fg string) {
+func (o *Output) Line(message, fg string) {
 	fmt.Println(
 		lipgloss.NewStyle().
 			PaddingLeft(1).
@@ -66,7 +66,7 @@ func (o *Output) BlockInfo(message string) {
 	o.Block(message, color.ColorGray.String(), color.ColorWhite.String())
 }
 
-func (o *Output) Block(message string, bg string, fg string) {
+func (o *Output) Block(message, bg, fg string) {
 	fmt.Println(
 		lipgloss.NewStyle().
 			MarginTop(1).

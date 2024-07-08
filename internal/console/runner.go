@@ -23,7 +23,7 @@ type Runner struct {
 	branch string
 }
 
-func NewDefaultRunner(repo string, branch string) (*Runner, error) {
+func NewDefaultRunner(repo, branch string) (*Runner, error) {
 	gh, err := client.NewDefaultGithub()
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func NewDefaultRunner(repo string, branch string) (*Runner, error) {
 	return NewRunner(NewOutput(), gh, repo, branch), nil
 }
 
-func NewRunner(output *Output, github *client.Github, repo string, branch string) *Runner {
+func NewRunner(output *Output, github *client.Github, repo, branch string) *Runner {
 	return &Runner{output: output, github: github, repo: repo, branch: branch}
 }
 

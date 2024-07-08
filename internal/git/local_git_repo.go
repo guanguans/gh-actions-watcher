@@ -29,12 +29,12 @@ func newLocalGitRepo(git *git) *LocalGitRepo {
 }
 
 func (l LocalGitRepo) GetVendorAndRepo() (string, error) {
-	gitHubRemoteUrl, err := l.getConfiguredGitUrl()
+	githubRemoteURL, err := l.getConfiguredGitURL()
 	if err != nil {
 		return "", err
 	}
 
-	return l.extractVendorAndRepo(gitHubRemoteUrl)
+	return l.extractVendorAndRepo(githubRemoteURL)
 }
 
 func (l LocalGitRepo) GetCurrentBranch() (string, error) {
@@ -45,7 +45,7 @@ func (l LocalGitRepo) GetCurrentBranch() (string, error) {
 	return strings.TrimSpace(stdout.String()), nil
 }
 
-func (l LocalGitRepo) getConfiguredGitUrl() (string, error) {
+func (l LocalGitRepo) getConfiguredGitURL() (string, error) {
 	stdout, _, err := l.git.exec("config", "--get", "remote.origin.url")
 	if err != nil {
 		return "", err
@@ -54,13 +54,13 @@ func (l LocalGitRepo) getConfiguredGitUrl() (string, error) {
 	return strings.TrimSpace(stdout.String()), nil
 }
 
-func (l LocalGitRepo) extractVendorAndRepo(gitHubRemoteUrl string) (string, error) {
+func (l LocalGitRepo) extractVendorAndRepo(githubRemoteURL string) (string, error) {
 	pattern := `(?:https:\/\/github\.com\/|git@github\.com:|git@github\.com:\/)([\w-]+\/[\w-]+)`
 	re := regexp.MustCompile(pattern)
-	match := re.FindStringSubmatch(gitHubRemoteUrl)
+	match := re.FindStringSubmatch(githubRemoteURL)
 	if len(match) > 1 {
 		return match[1], nil
 	}
 
-	return "", errors.New("It seems you are executing this in a git repo that was not cloned from GitHub. Detected remote URL: `" + gitHubRemoteUrl + "`")
+	return "", errors.New("It seems you are executing this in a git repo that was not cloned from Github. Detected remote URL: `" + githubRemoteURL + "`")
 }

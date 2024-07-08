@@ -2,7 +2,7 @@
 md-lint = lint-md --config .lintmdrc ./*.md ./.github/ ./docs/ ./src/*/*.md
 release = monorepo-builder release --ansi -v
 
-checks: mod-tidy goimports fmt license-fix
+checks: mod-tidy goimports fmt fumpt license-fix
 .PHONY: checks
 
 ai-commit:
