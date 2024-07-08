@@ -16,10 +16,10 @@ func Execute() {
 		branch  string
 		rootCmd = &cobra.Command{
 			Use:           "actions-watcher",
-			Short:         "Watch the GitHub actions of a repo.",
+			Short:         "Watch the Github actions of a repo.",
 			SilenceErrors: true,
 			SilenceUsage:  true,
-			RunE: func(cmd *cobra.Command, args []string) error {
+			RunE: func(_ *cobra.Command, _ []string) error {
 				runner, err := console.NewDefaultRunner(repo, branch)
 				if err != nil {
 					return err
@@ -30,7 +30,7 @@ func Execute() {
 		}
 	)
 
-	rootCmd.Flags().StringVarP(&repo, "repo", "r", "", "GitHub repository.")
+	rootCmd.Flags().StringVarP(&repo, "repo", "r", "", "Github repository.")
 	rootCmd.Flags().StringVarP(&branch, "branch", "b", "", "Workflow run branch.")
 
 	if err := rootCmd.Execute(); err != nil {

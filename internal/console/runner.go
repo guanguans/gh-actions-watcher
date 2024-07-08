@@ -57,8 +57,7 @@ func NewRunner(output *Output, github *client.Github, repo string, branch string
 
 func (r *Runner) Run() error {
 	r.showHeader()
-
-	r.output.LineInfo("Fetching GitHub workflow runs...")
+	r.output.LineInfo("Fetching Github workflow runs...")
 
 	var lastWorkflows entity.WorkflowRunCollection
 
@@ -87,7 +86,7 @@ func (r *Runner) Run() error {
 
 func (r *Runner) showHeader() {
 	r.clearScreen()
-	r.output.BlockInfo("GitHub Actions Watcher by guanguans - Logged in as guanguans")
+	r.output.BlockInfo("Github Actions Watcher by guanguans")
 }
 
 func (r *Runner) clearScreen() {
@@ -95,7 +94,7 @@ func (r *Runner) clearScreen() {
 }
 
 func (r *Runner) showWorkflowRunCollection(runs entity.WorkflowRunCollection) {
-	l := list.New().Enumerator(func(items list.Items, index int) string {
+	l := list.New().Enumerator(func(_ list.Items, _ int) string {
 		return ""
 	})
 
@@ -109,6 +108,7 @@ func (r *Runner) showWorkflowRunCollection(runs entity.WorkflowRunCollection) {
 		l.Item(render + " ... " + run.Name)
 	}
 
+	r.output.NewLine(1)
 	fmt.Println(l)
 }
 
@@ -119,7 +119,7 @@ func (r *Runner) displayWorkflows() (entity.WorkflowRunCollection, error) {
 	}
 
 	r.showHeader()
-	r.output.LineInfo(fmt.Sprintf("Workflow runs for %s on the %s branch.\n", r.repo, r.branch))
+	r.output.LineInfo(fmt.Sprintf("Workflow runs for `%s` on the `%s` branch.", r.repo, r.branch))
 
 	if runs.IsEmpty() {
 		r.output.LineWarning("No workflow runs found for this repo...")
