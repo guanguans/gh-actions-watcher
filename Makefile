@@ -2,7 +2,7 @@
 md-lint = lint-md --config .lintmdrc ./*.md ./.github/ ./docs/ ./src/*/*.md
 release = monorepo-builder release --ansi -v
 
-checks: mod-tidy goimports fmt fumpt license-fix
+checks: mod-tidy goimports fumpt license-fix test
 .PHONY: checks
 
 ai-commit:
@@ -42,11 +42,11 @@ mod-tidy:
 .PHONY: mod-tidy
 
 test:
-	go test -cover -coverprofile=cover.out -race ./... -v
+	go test -coverprofile=coverage.out -cover -race -v ./...
 .PHONY: test
 
-test-cover:
-	go tool cover -html=cover.out
+test-cover-view: test
+	go tool cover -html=coverage.out
 .PHONY: test-cover
 
 bench:
