@@ -1,57 +1,58 @@
 # note: call scripts from /scripts
+md-lint = lint-md --config .lintmdrc ./*.md ./.github/ ./docs/ ./src/*/*.md
+release = monorepo-builder release --ansi -v
 
-.PHONY: checks
 checks: mod-tidy goimports fmt license-fix
+.PHONY: checks
 
-.PHONY: ai-commit
 ai-commit:
 	ai-commit commit --generator=bito_cli --ansi
+.PHONY: ai-commit
 
-.PHONY: ai-commit-no-verify
 ai-commit-no-verify:
 	ai-commit commit --generator=bito_cli --ansi --no-verify
+.PHONY: ai-commit-no-verify
 
-.PHONY: golangci-lint
 golangci-lint:
 	golangci-lint run ./...
+.PHONY: golangci-lint
 
-.PHONY: gosec
 gosec:
 	gosec ./...
+.PHONY: gosec
 
-.PHONY: fmt
 fmt:
 	go fmt ./...
+.PHONY: fmt
 
-.PHONY: fumpt
 fumpt:
 	gofumpt -d -e -l -w -extra .
+.PHONY: fumpt
 
-.PHONY: vet
 vet:
 	go vet ./...
+.PHONY: vet
 
-.PHONY: goimports
 goimports:
 	goimports -w .
+.PHONY: goimports
 
-.PHONY: mod-tidy
 mod-tidy:
 	go mod tidy
+.PHONY: mod-tidy
 
-.PHONY: test
 test:
 	go test -cover -coverprofile=cover.out -race ./... -v
+.PHONY: test
 
-.PHONY: test-cover
 test-cover:
 	go tool cover -html=cover.out
+.PHONY: test-cover
 
-.PHONY: bench
 bench:
 	go test -bench=. -benchmem ./... -v
+.PHONY: bench
 
-.PHONY: goreleaser
 # goreleaser init
 # goreleaser check
 # goreleaser build --single-target
@@ -59,27 +60,53 @@ bench:
 # goreleaser release
 goreleaser:
 	goreleaser
+.PHONY: goreleaser
 
-.PHONY: staticcheck
 staticcheck:
 	staticcheck ./...
+.PHONY: staticcheck
 
-.PHONY: errcheck
 errcheck:
 	errcheck ./...
+.PHONY: errcheck
 
-.PHONY: ineffassign
 ineffassign:
 	ineffassign ./...
+.PHONY: ineffassign
 
-.PHONY: license-check
 license-check:
 	license-eye header check
+.PHONY: license-check
 
-.PHONY: license-fix
 license-fix:
 	license-eye header fix
+.PHONY: license-fix
 
-.PHONY: vhs
 vhs:
 	vhs < gh-actions-watcher.tape
+.PHONY: vhs
+
+md-lint:
+	$(md-lint)
+.PHONY: lint-md
+
+md-fix:
+	$(md-lint) --fix
+.PHONY: md-fix
+
+trufflehog:
+	trufflehog git https://github.com/guanguans/gh-actions-watcher --only-verified
+.PHONY: trufflehog
+
+release-major:
+	$(release) major
+release-major-dry-run:
+	$(release)-major --dry-run
+release-minor:
+	$(release) minor
+release-minor-dry-run:
+	$(release)-minor --dry-run
+release-patch:
+	$(release) patch
+release-patch-dry-run:
+	$(release)-patch --dry-run

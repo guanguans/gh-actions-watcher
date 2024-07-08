@@ -34,8 +34,7 @@ This is just a quick introduction, view the [GoDoc](https://pkg.go.dev/github.co
 
 Let's start with a trivial example:
 
-```go
-```
+
 
 ## Testing
 
