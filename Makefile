@@ -42,7 +42,7 @@ mod-tidy:
 .PHONY: mod-tidy
 
 test:
-	go test -coverprofile=coverage.out -cover -race -v ./...
+	set -o pipefail && go test -json -coverprofile=coverage.out -cover -race -v ./... | tparse -all
 .PHONY: test
 
 test-cover-view: test
