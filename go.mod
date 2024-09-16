@@ -4,7 +4,7 @@ go 1.22.4
 
 require (
 	github.com/charmbracelet/lipgloss v0.13.0
-	github.com/cli/go-gh/v2 v2.9.0
+	github.com/cli/go-gh/v2 v2.10.0
 	github.com/cli/safeexec v1.0.1
 	github.com/samber/lo v1.47.0
 	github.com/spf13/cobra v1.8.1
