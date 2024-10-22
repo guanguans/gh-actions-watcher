@@ -3,7 +3,7 @@ module github.com/guanguans/gh-actions-watcher
 go 1.22.4
 
 require (
-	github.com/charmbracelet/lipgloss v0.13.0
+	github.com/charmbracelet/lipgloss v0.13.1
 	github.com/cli/go-gh/v2 v2.11.0
 	github.com/cli/safeexec v1.0.1
 	github.com/samber/lo v1.47.0
@@ -12,7 +12,7 @@ require (
 
 require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
-	github.com/charmbracelet/x/ansi v0.1.4 // indirect
+	github.com/charmbracelet/x/ansi v0.3.2 // indirect
 	github.com/cli/shurcooL-graphql v0.0.4 // indirect
 	github.com/henvic/httpretty v0.0.6 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
