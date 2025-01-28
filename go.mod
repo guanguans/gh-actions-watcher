@@ -6,7 +6,7 @@ require (
 	github.com/charmbracelet/lipgloss v1.0.0
 	github.com/cli/go-gh/v2 v2.11.2
 	github.com/cli/safeexec v1.0.1
-	github.com/samber/lo v1.49.0
+	github.com/samber/lo v1.49.1
 	github.com/spf13/cobra v1.8.1
 )
 
