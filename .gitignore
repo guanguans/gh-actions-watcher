@@ -30,4 +30,4 @@ go.work
 
 /gh-actions-watcher
 .DS_Store
-q
+/.qodo/

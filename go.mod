@@ -1,7 +1,8 @@
 module github.com/guanguans/gh-actions-watcher
 
-go 1.22.4
-toolchain go1.24.1
+go 1.23.0
+
+toolchain go1.24.2
 
 require (
 	github.com/charmbracelet/lipgloss v1.1.1-0.20250319133953-166f707985bc
